@@ -13,3 +13,25 @@ You will deploy an AI model using **Azure Container Apps** and supporting script
 Instructions under development branch.
 They are not fully tested.
 Once they are completed they will be posted here.
+
+## Open a PowerShell Terminal
+
+## Clone the Repository
+git clone https://github.com/danielecolon/Azure-ContainerApps-Ollama.git
+
+## Navigate into the project directory:
+cd Azure-ContainerApps-Ollama
+cd demo
+
+## Deploy Azure Container Apps Environment
+.\ace.ps1
+
+## Deploy the Ollama Container App
+.\aca.ps1
+
+## Deploy the Web UI
+.\aca-web-webui.ps1
+
+## Cleanup
+Delete the resource group that was created using the Azure Portal or run the following:<br />
+.\s2d.ps1
