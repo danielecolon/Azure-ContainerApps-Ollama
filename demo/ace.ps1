@@ -53,3 +53,9 @@ az containerapp env storage set -n $CAE -g $RG --storage-name "caest$PROJECT$RAN
 $endTime = Get-Date
 $duration = $endTime - $startTime
 Write-Host "Elapsed Time: $($duration.Hours) hours, $($duration.Minutes) minutes, $($duration.Seconds) seconds, $($duration.Milliseconds) milliseconds"
+Write-Host ""
+
+# Next Step
+Write-Host "The Container App Environment is now setup."
+Write-Host "Now run the following script to setup the Ollama Container App:"
+Write-Host ".\aca_ollama.ps1 -RANDOM $RANDOM"
