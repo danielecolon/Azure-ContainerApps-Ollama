@@ -1,0 +1,71 @@
+#Author: Daniel Colón
+#Date: 11/8/2025
+#Title: aca.ps1
+#Purpose: Create ACA with resources that following given name convention
+
+$startTime = Get-Date
+# Resoure Group
+. .\rg.ps1 -PROJECT "Ollama"
+
+# Required so we can use contanerapp extension
+az provider register --namespace Microsoft.App --wait --only-show-errors
+az provider show -n Microsoft.App --query "{namespace:namespace registrationState:registrationState}" -o tsv
+
+az provider register --namespace Microsoft.OperationalInsights --wait --only-show-errors
+az provider show -n Microsoft.OperationalInsights --query "{namespace:namespace registrationState:registrationState}" -o tsv
+
+az extension add --name containerapp --upgrade --only-show-errors -o none
+az extension show --name containerapp --query "{name:name version:version}" -o tsv
+
+# Azure Container Registry
+. ".\acr.ps1"
+
+# Managed Identity
+az identity create -n "idacrpull$RANDOM" -g $RG --query name -o tsv
+$ID = $(az identity show -n "idacrpull$RANDOM" -g $RG --query principalId -o tsv)
+start-sleep 30  #Needed to slow down process.  Sometimes failed if new Managed Identity not fully propagated in system
+
+# Assign Managed Identity to ACR PULL Role
+$SCOPE = az acr show -n $ACR -g $RG --query id -o tsv
+az role assignment create --role "AcrPull" --assignee $ID --scope $SCOPE --query name -o tsv
+
+# Containerapp Environment
+az containerapp env create -n "cae$PROJECT$RANDOM" -g $RG -l $L --only-show-errors --query name -o tsv
+$CAE = (az containerapp env show -n "cae$PROJECT$RANDOM" -g $RG --query name -o tsv)
+
+# Storage Account
+. ".\st.ps1"
+
+# Storage File Share
+$SHARE = "models"
+az storage share create -n $SHARE --account-name $ST --quota 100 --only-show-errors --query created -o tsv
+$STkey1 = az storage account keys list --account-name $ST -g $RG --query [0].value
+start-sleep 30  #Needed to slow down process.  Sometimes unable to set storage on containerapp env if done to quickly
+az containerapp env storage set --access-mode ReadWrite --azure-file-account-name $ST --azure-file-account-key "$STkey1" --azure-file-share-name $SHARE --storage-name "caest$PROJECT$RANDOM" -n $CAE -g $RG --only-show-errors --query name -o tsv
+
+# Show Duration 
+$endTime = Get-Date
+$duration = $endTime - $startTime
+Write-Host "Elapsed Time: $($duration.Hours) hours, $($duration.Minutes) minutes, $($duration.Seconds) seconds, $($duration.Milliseconds) milliseconds"
+Write-Host ""
+
+# Not able to set Storage account key via az cli
+Write-Host "This script is not able to set the Storage Account Key for the Container Apps Environment Volume mountvia the az cli."
+Write-Host "Go to the Azure Portal to set the Storage Account Key for the Container Apps Environment Volume mount."
+Write-Host "This setting is required for the Ollama Container App to access the model files (perminant storage) stored in the Azure File Share."
+Write-Host  "Steps to follow:"
+Write-Host "1. Copy storage access key" -ForegroundColor Yellow
+Write-Host "2. Navigate to the Container Apps Environment created by this script." -ForegroundColor Yellow
+Write-Host "3. Click on Setting|Volume mounts section." -ForegroundColor Yellow
+Write-Host "4. Click on the created volume mount" -ForegroundColor Yellow
+Write-Host "5. Paste the storage account key copied in step 1." -ForegroundColor Yellow
+Write-Host "6. Click on Save button." -ForegroundColor Yellow
+
+# Next Step
+Write-Host "The Container App Environment is now setup."
+Write-Host "Now run the following script to setup the Ollama Container App:"
+Write-Host ".\aca_ollama.ps1 -RANDOM $RANDOM" -ForegroundColor Yellow
+
+# Show all variables currently defined
+# Use this for troubleshooting
+#Get-Variable | Select-Object Name, Value
