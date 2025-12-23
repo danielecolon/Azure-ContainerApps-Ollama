@@ -26,6 +26,9 @@ cd demo
 ## Deploy Azure Container Apps Environment
 .\ace.ps1
 
+## Manually update storage access key to mount volume share
+Follow instructions from output of the previous script
+
 ## Deploy the Ollama Container App
 .\aca_ollama.ps1 -RANDOM <RANDOM_PROVIDED_FROM_PREVIOUS_SCRIPT>
 

@@ -96,12 +96,14 @@ $lines = @("
       storageType: AzureFile
 
 ")
-$lines | Write-Host
+$lines | Write-Host  -ForegroundColor Yellow
 
 Write-Host "Don't forget to save after editing ${ACA}.yaml"
 Write-Host "1. Run the following command"
-Write-Host "az containerapp update --name $ACA --resource-group $RG --yaml ${ACA}.yaml"
-Write-Host "2. Run the following command to setup open-webui container app"
-Write-Host ".\aca_open-webui.ps1 -RANDOM $RANDOM"
+Write-Host "az containerapp update --name $ACA --resource-group $RG --yaml ${ACA}.yaml" -ForegroundColor Yellow
+Write-Host "2. Clone the open-webui repository"
+Write-Host "git clone https://github.com/open-webui/open-webui.git" -ForegroundColor Yellow
+Write-Host "3. Run the following command to setup open-webui container app"
+Write-Host ".\aca_open-webui.ps1 -RANDOM $RANDOM" -ForegroundColor Yellow
 
 #az containerapp update --name $ACA --resource-group $RG --yaml "$ACA.yaml"

@@ -75,30 +75,10 @@ $endTime = Get-Date
 $duration = $endTime - $startTime
 Write-Host "Elapsed Time: $($duration.Hours) hours, $($duration.Minutes) minutes, $($duration.Seconds) seconds, $($duration.Milliseconds) milliseconds"
 
-
 # Add Mount Drive
-# https://learn.microsoft.com/en-us/azure/container-apps/storage-mounts-azure-files?tabs=bash
-# Note:  Install-Module -Name powershell-yaml -Force
-# az containerapp show --name $ACA --resource-group $RG --output yaml > "$ACA.yaml"
-# # Edit yaml file
-# Write-Host ""
-# Write-Host ""
-# Write-Host "Edit ${ACA}.yaml"
-# Write-Host ""
+# Current this script only creates the Container App without any mounted storage.
+# To add a mounted Azure File Share for open-webui look at how this was done for the # ACA Ollama demo.
 
-# $lines = @(
-# "      volumeMounts:
-#       - volumeName: models
-#         mountPath: /models
-
-#     volumes:
-#     - name: models
-#       storageName: caest${PROJECT}${RANDOM}
-#       storageType: AzureFile"
-# )
-# $lines | Write-Host
-
-# Write-Host "After Editing ${ACA}.yaml"
-# Write-Host "Run the following command"
-# Write-Host "az containerapp update --name $ACA --resource-group $RG --yaml ${ACA}.yaml"
-#az containerapp update --name $ACA --resource-group $RG --yaml "$ACA.yaml"
+Write-Host "You will need to pull down the ollama models to the Ollama server first."
+Write-Host "Then you will need to update the Ollama API URL in the open-webui via the admin panel."
+Write-Host "Then start exploring open-webui with Ollama models!"

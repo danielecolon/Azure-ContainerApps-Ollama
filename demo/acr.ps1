@@ -9,4 +9,3 @@
 # Azure Container Registry
 az acr create --name "acr$PROJECT$RANDOM" --resource-group $RG --location $L --sku Standard --query name -o tsv
 $ACR=$(az acr show -n "acr$PROJECT$RANDOM" --query name -o tsv)
-$ACR_Id=$(az acr show -n "acr$PROJECT$RANDOM" --query id -o tsv)
