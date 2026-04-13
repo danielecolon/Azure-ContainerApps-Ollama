@@ -18,6 +18,9 @@ Daniel Colón
 Daniel Colón has expertise in cloud, infrastructure, and systems integration obtained through 20 plus years of working as a manager, architect and developer on mission critical back-end systems that have included various cloud platforms such as AWS, Azure, and GCP. He has taught various courses at Northeastern University including ASP.NET, C#, and XML Web Services. He has certifications including A+, Security+, Azure Solutions Architect Expert, AWS Cloud Solutions Architect Professional and GCP Professional Cloud Architect.
 -->
 
+### YouTube
+[Run LLMs Your Way Deploying Ollama on Azure Container Apps](https://www.youtube.com/watch?v=ApT7UjxE2bs&t=4042s)
+
 ### Tags
 Cloud Computing<br>
 Microsoft Azure<br>
