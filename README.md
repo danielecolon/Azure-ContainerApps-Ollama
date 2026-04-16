@@ -21,6 +21,9 @@ Daniel Colón has expertise in cloud, infrastructure, and systems integration ob
 ### YouTube
 [Run LLMs Your Way Deploying Ollama on Azure Container Apps](https://www.youtube.com/watch?v=ApT7UjxE2bs&t=4042s)
 
+### Slides
+[Self-Hosting AI LLMs.pdf](Self-Hosting%20AI%20LLMs.pdf)<br>
+
 ### Tags
 Cloud Computing<br>
 Microsoft Azure<br>
